@@ -35,7 +35,7 @@ TL;DR - this script doesn't generate the SAS or the CAS. That is your responsibi
 
 #### System Requirements
 
-As a Bash script, this should run in most any Linux environment.
+I wrote and tested this in Debian 10 (non-GUI), but as a Bash script, it should run in most any Linux environment.
 
 Some pre-requisites include:
 - minimodem (FSK generation)
