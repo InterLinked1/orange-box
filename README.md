@@ -24,7 +24,7 @@ Most Caller ID units will simply ignore parameters they do not support (this is 
 ## Usage
 
 #### What this program does
-This Type II Caller ID generator generates the exact binary data that is sent to the Caller ID unit. This script then invokes minimodem to actually turn this into 1200 baud FSK audio. This program is optimized ot be used directly with Asterisk, and can be invoked using the `${SHELL}` function.
+This Type II Caller ID generator generates the exact binary data that is sent to the Caller ID unit. This script then invokes minimodem to actually turn this into 1200 baud FSK audio. This program is optimized to be used directly with Asterisk, and can be invoked using the `${SHELL}` function.
 
 #### What this program doesn't do
 This *doesn't* generate either the Subscriber Alerting Signal (i.e. "Call Waiting Tone") or the CPE Alerting Signal (Customer Premises Equipment Alerting Signal). The SAS is typically 440 Hz for 300ms. However, it can be different with Distinctive Call Waiting, and technically, you might not need to provide it at all. The purpose of the SAS is to let the called party know that he has a call waiting. This signal is repeated once every ten seconds until either the caller hangs up or the called party attends to the call waiting in some way (not necessarily answering it, since Call Waiting Deluxe lets you do other things).
