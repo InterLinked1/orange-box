@@ -47,7 +47,7 @@ Some pre-requisites include:
 This program accepts 8 arguments:
 
 Recommended/Mandatory Arguments:
-- 1: **Time Zone** - If not provided, this defaults to the system time zone.
+- 1: **Time Zone** - If an empty argument is provided, this defaults to the system time zone.
 - 2: **Caller Number** - `${CALLERID(num)}` or `${CALLERID(ANI-num)}` should be provided, *regardless of the presentation*. If more than 15 characters are passed in, the script will truncate the CNAM to the first 15 characters.
 - 3: **Caller Name** - `${CALLERID(name)}` should be provided, *regardless of the presentation*
 - 4: **Caller Presentation** - `${CALLERID(pres)}`
