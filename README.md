@@ -3,9 +3,15 @@ Flexible Orange Box (Type II Caller ID Generator)
 
 ## Background
 
-This is F.O.B. (Flexible Orange Box), inspired by the popular S.O.B. (Software Orange Box) program for Windows, I was looking for a Type II Caller ID generator that I could use in conjunction with Asterisk for the purposes of generating Type II Caller ID ("Call Waiting Caller ID"). Not finding any, and also frustrated by the lack of Caller ID generators that implement the complete Multiple Data Message Format (MDMF), I decided to write my own program that was capable of generating all the presentation layers, not just the most popular ones.
+This is **F.O.B. (Flexible Orange Box)**, inspired by the popular S.O.B. (Software Orange Box) program for Windows.
+
+#### Problem
 
 When connecting SIP FXS devices with a Class 5 switch, the ATA will not see a Call Waiting when there is a Call Waiting presented to it. Thus, it is necessary to signal the FSK directly to the CPE in-band from the switch. Asterisk does not have any provision to do this, so this needs to be done with an external program.
+
+#### Solution
+
+I was looking for a Type II Caller ID generator that I could use in conjunction with Asterisk for the purposes of generating Type II Caller ID ("Call Waiting Caller ID"). Not finding any, and also frustrated by the lack of Caller ID generators that implement the complete Multiple Data Message Format (MDMF), I decided to write my own program that was capable of generating all the presentation layers, not just the most popular ones.
 
 This program is intended to be a legitimate Type II Caller ID Generator, used for the purpose of Call Waiting Caller ID (Of course, functionally, it can be used just like any other orange box to spoof call waitings if desired - we are not responsible for any misuse of this program). This allows you to send Call Waiting Caller ID to a remote endpoint, even if no Call Waiting is presented to the remote endpoint (e.g. Analog Telephone Adapter), allowing for CWCID to be provided even when advanced bridging capabilites are being used.
 
