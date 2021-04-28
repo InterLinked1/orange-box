@@ -7,19 +7,19 @@ This is **F.O.B. (Flexible Orange Box)**, inspired by the popular S.O.B. (Softwa
 
 #### Problem
 
-When connecting SIP FXS devices with a Class 5 switch, the ATA will not see a Call Waiting when there is a Call Waiting presented to it. Thus, it is necessary to signal the FSK directly to the CPE in-band from the switch. Asterisk does not have any provision to do this, so this needs to be done with an external program.
+When connecting SIP FXS devices with a Class 5 switch, the ATA will not see a Call Waiting presented to it when there is a Call Waiting. Thus, it is necessary to signal the FSK directly to the CPE in-band from the switch. Asterisk does not have any provision to do this, so this needs to be done with an external program.
 
 #### Solution
 
 I was looking for a Type II Caller ID generator that I could use in conjunction with Asterisk for the purposes of generating Type II Caller ID ("Call Waiting Caller ID"). Not finding any, and also frustrated by the lack of Caller ID generators that implement the complete Multiple Data Message Format (MDMF), I decided to write my own program that was capable of generating all the presentation layers, not just the most popular ones.
 
-This program is intended to be a legitimate Type II Caller ID Generator, used for the purpose of Call Waiting Caller ID (Of course, functionally, it can be used just like any other orange box to spoof call waitings if desired - we are not responsible for any misuse of this program). This allows you to send Call Waiting Caller ID to a remote endpoint, even if no Call Waiting is presented to the remote endpoint (e.g. Analog Telephone Adapter), allowing for CWCID to be provided even when advanced bridging capabilites are being used.
+This program is intended to be a legitimate Type II Caller ID Generator, used for the purpose of Call Waiting Caller ID (Of course, functionally, it can be used just like any other orange box to spoof call waitings if desired - we are not responsible for any misuse of this program). This allows you to send Call Waiting Caller ID to a remote endpoint, even if no Call Waiting is presented to the remote endpoint (e.g. Analog Telephone Adapter), allowing for CWCID to be provided even when advanced bridging capabilites are being used, by "orange boxing" in band for legitimate purposes.
 
 #### Why?
 
 Great question. Most Caller ID units only support Time/Date, Calling Number, and Calling Name (and presentation, of course). However, this is just a small part of the full specification. The [BellSouth CI7112 Visual Director](https://www.amazon.com/BellSouth-Caller-Waiting-Deluxe-CI-7112/dp/B00RZK7UVK/), for instance, has the capability of letting you know the redirecting status of a call (such as if the number called was busy or didn't answer) *and* if the call is long distance. Yet, most Caller ID generators complete ignore these properties.
 
-Most Caller ID units will simply ignore parameters they do not support (this is what they're *supposed* to do, at least...). However, for the optional/additional parameters, not supplying an argument or supplying an empty argument will cause that parameter to not be sent, so you can prevent the transmission of these parameters as desired. That's why this is called the **Flexible Orange Box**. It's Caller ID, *your* way.
+Most Caller ID units will simply ignore parameters they do not support (this is what they're *supposed* to do, at least...). However, for the optional/additional parameters, not supplying an argument or supplying an empty argument will cause that parameter to not be sent, so you can prevent the transmission of these parameters as desired. That's why this is called the **Flexible Orange Box**. It's Caller ID, *your* way. This script is designed to be flexible, without making too many assumptions about the Caller ID parameters. It does assume that you want the correct time but does let you set the time zone.
 
 ## Usage
 
@@ -31,7 +31,7 @@ This *doesn't* generate either the Subscriber Alerting Signal (i.e. "Call Waitin
 
 The CAS is the important part. It's 2130+2750 Hz for about 80-85ms. The signal should end cleanly. If there is echo afterwards, it won't work. In Asterisk, you can play a dummy tone or quick audio file to suppress any echo that occurs if audio is not followed up immediately with more audio.
 
-As I said, this script doesn't generate the SAS or the CAS. That is your responsibility, and you can do this easily in Asterisk.
+TL;DR - this script doesn't generate the SAS or the CAS. That is your responsibility, but you can do this easily in Asterisk.
 
 #### System Requirements
 
