@@ -1,2 +1,50 @@
 # orange-box
 Flexible Orange Box (Type II Caller ID Generator)
+
+## Background
+
+Inspired by the popular S.O.B. (Software Orange Box) program for Windows, I was looking for a Type II Caller ID generator that I could use in conjunction with Asterisk for the purposes of generating Type II Caller ID ("Call Waiting Caller ID"). Not finding any, and also frustrated by the lack of Caller ID generators that implement the complete Multiple Data Message Format (MDMF), I decided to write my own program that was capable of generating all the presentation layers, not just the most popular ones.
+
+#### Why?
+
+Great question. Most Caller ID units only support Time/Date, Calling Number, and Calling Name (and presentation, of course). However, this is just a small part of the full specification. The [BellSouth CI7112 Visual Director](https://www.amazon.com/BellSouth-Caller-Waiting-Deluxe-CI-7112/dp/B00RZK7UVK/), for instance, has the capability of letting you know the redirecting status of a call (such as if the number called was busy or didn't answer) *and* if the call is long distance. Yet, most Caller ID generators complete ignore these properties.
+
+Most Caller ID units will simply ignore parameters they do not support (this is what they're *supposed* to do, at least...). However, for the optional/additional parameters, not supplying an argument or supplying an empty argument will cause that parameter to not be sent, so you can prevent the transmission of these parameters as desired. That's why this is called the **Flexible Orange Box**. It's Caller ID, *your* way.
+
+## Usage
+
+#### What this program does
+This Type II Caller ID generator generates the exact binary data that is sent to the Caller ID unit. This script then invokes minimodem to actually turn this into 1200 baud FSK audio. This program is optimized ot be used directly with Asterisk, and can be invoked using the `${SHELL}` function.
+
+#### What this program doesn't do
+This *doesn't* generate either the Subscriber Alerting Signal (i.e. "Call Waiting Tone") or the CPE Alerting Signal (Customer Premises Equipment Alerting Signal). The SAS is typically 440 Hz for 300ms. However, it can be different with Distinctive Call Waiting, and technically, you might not need to provide it at all. The purpose of the SAS is to let the called party know that he has a call waiting. This signal is repeated once every ten seconds until either the caller hangs up or the called party attends to the call waiting in some way (not necessarily answering it, since Call Waiting Deluxe lets you do other things).
+
+The CAS is the important part. It's 2130+2750 Hz for about 80-85ms. The signal should end cleanly. If there is echo afterwards, it won't work. In Asterisk, you can play a dummy tone or quick audio file to suppress any echo that occurs if audio is not followed up immediately with more audio.
+
+As I said, this script doesn't generate the SAS or the CAS. That is your responsibility, and you can do this easily in Asterisk.
+
+#### Arguments
+
+This program accepts 9 arguments:
+
+Recommended/Mandatory Arguments:
+- 1: **Time Zone** - If not provided, this defaults to the system time zone.
+- 2: **Caller Number** - `${CALLERID(num)}` or `${CALLERID(ANI-num)}` should be provided, *regardless of the presentation*. If more than 15 characters are passed in, the script will truncate the CNAM to the first 15 characters.
+- 3: **Caller Name** - `${CALLERID(name)}` should be provided, *regardless of the presentation*
+- 4: **Caller Presentation** - `${CALLERID(pres)}`
+
+Optional Arguments (if not specified, these parameters will not be sent):
+- 5: **Redirecting Number** - `${CALLERID(RDNIS)}`
+- 6: **Redirecting Reason** - `${REDIRECTING(reason)}`
+- 7: **Call Qualifier ("Long Distance Call")** - 1 for long distance, 0 or empty otherwise
+- 8: **Number of Messages** - 0 or positive integer representing # of messages waiting if this parameter is sent
+
+Apart from the Call Qualifier, Time Zone, and # Messages Waiting, all the arguments are standard Asterisk channel variables you can simply pass in. The rest can be computed or calculated as desired.
+
+#### Return Value
+
+This program returns the full path to the generated audio file containing 1200 baud (Bell 202) FSK. It is your responsibility to play the file and then delete it from your invoking program (e.g. Asterisk).
+
+## Support
+
+This program has been tested and working with some CPE, but of course, it's impossible to test them all. If you experience issues or the program does not work as described, please report these and we can try to look into them. No guarantees are provided and all support is provided on an "as is" / "as able" basis.
