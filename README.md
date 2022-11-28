@@ -5,6 +5,14 @@ Flexible Orange Box (Type II Caller ID Generator)
 
 This is **F.O.B. (Flexible Orange Box)**, inspired by the popular S.O.B. (Software Orange Box) program for Windows.
 
+### *Update*
+
+*If you are looking for an orange box for Asterisk*, you should consider this program *superseded* by the native Asterisk module [`app_callerid`](https://github.com/InterLinked1/phreakscript/blob/master/apps/app_callerid.c). You can use the `SendCWCID` application to automatically handle the entire Type II Caller ID generation process, without having to deal with system calls, external files, etc. It's a much nicer solution!
+
+If you install Asterisk using [PhreakScript](https://github.com/InterLinked1/phreakscript), you will automatically get the `app_callerid` module and the `SendCWCID` application.
+
+F.O.B. is still a generic orange box that can be used for anything, not just Asterisk, so this program is still maintained, just *not recommended if you are using Asterisk* since there is something better for that now.
+
 #### Problem
 
 When connecting SIP FXS devices with a Class 5 switch, the ATA will not see a Call Waiting presented to it when there is a Call Waiting. Thus, it is necessary to signal the FSK directly to the CPE in-band from the switch. Asterisk does not have any provision to do this, so this needs to be done with an external program.
